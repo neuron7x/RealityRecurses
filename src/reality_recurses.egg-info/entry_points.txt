@@ -1,0 +1,3 @@
+[console_scripts]
+reality-recurses = reality_recurses.agent:run_simulation
+reality-scaler = reality_scaler.agent:run_simulation
