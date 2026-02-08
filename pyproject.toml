@@ -7,9 +7,16 @@ name = "reality-recurses"
 version = "1.0.0"
 description = "Physical Reality as a Scaling Substrate for AGI"
 readme = "README.md"
-license = "MIT"
+license = { text = "CC BY-NC-ND 4.0" }
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.24"]
+classifiers = [
+  "License :: Other/Proprietary License",
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3",
+  "Intended Audience :: Developers",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 
 [project.scripts]
 reality-recurses = "reality_recurses.agent:run_simulation"

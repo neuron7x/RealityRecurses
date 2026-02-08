@@ -1,103 +1,33 @@
-# RealityRecurses 1.0.0
+# RealityRecurses
 
-**Physical Reality as a Scaling Substrate for AGI**
+RealityRecurses is a **physically bounded, causal agent architecture** for building **reproducible and verifiable** intelligent behavior under explicit constraints: energy/entropy accounting, bounded memory, causal interventions, and self-audit invariants.
 
-An agent system that grounds intelligence in information physics — Landauer principle, Bekenstein bound, entropy budgets, and thermodynamic memory. Core thesis: static datasets have finite entropy; true intelligence scaling requires physical interaction.
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────┐
-│              RealityScalerAgent              │
-├──────────┬──────────┬──────────┬────────────┤
-│ Landauer │ Fractal  │ Thermo-  │  Causal    │
-│ Engine   │ Archi-   │ dynamic  │  Inference │
-│ (physics)│ tecture  │ Memory   │  Engine    │
-├──────────┼──────────┼──────────┼────────────┤
-│ Bekenstein│ Nucleus →│ Working →│ Interven-  │
-│ Bound    │ Sensor → │ Episodic→│ tions      │
-│ Entropy  │ Compress→│ Semantic │ Counter-   │
-│ Budget   │ Model →  │          │ factuals   │
-│          │ Scaler   │          │ Do-calculus│
-├──────────┴──────────┴──────────┴────────────┤
-│            Divergent Explorer                │
-│  (hypothesis populations × evolutionary)     │
-└─────────────────────────────────────────────┘
-```
-
-Every operation costs energy (Landauer: `kT ln2` per bit erased). When entropy budget saturates, the agent transitions from static to physical-interaction regime.
-
-## Install
+## Quickstart
 
 ```bash
-pip install -e .
+python -m pip install -e .
+pytest -q
+python scripts/audit.py
+python scripts/run_simulation.py --steps 5 --json
 ```
 
-Requires Python ≥ 3.10 and NumPy ≥ 1.24.
+## What this repository provides
 
-## Quick start
+- Agent loop with explicit budgets (energy, entropy, information throughput)
+- Causal core with intervention (`do`) and counterfactual hooks
+- Thermodynamic memory (working/episodic/semantic) with bounded growth and controlled forgetting
+- Self-audit that produces a pass/fail report suitable for CI gating
+- GitHub Actions CI for pull requests (tests + audit)
 
-```python
-from reality_recurses import RealityScalerAgent, PhysicsSimEnvironment
+## License (non-commercial, no resale)
 
-agent = RealityScalerAgent.create(state_dim=64, action_dim=16, energy_budget=1.0)
-env = PhysicsSimEnvironment(state_dim=64)
+This repository is the author's intellectual property and is licensed under **CC BY-NC-ND 4.0**.
 
-for step in range(1000):
-    state = env.observe()
-    report = agent.step(state, environment_step_fn=env.step)
-    # report: prediction_error, information_gained, energy_consumed, ...
-```
+You may **read, run, and share unmodified copies** for research, study, and personal use.
 
-## CLI
+You may **not**:
+- use it for commercial purposes (including selling, paid services, SaaS, consulting, courses, or embedding in commercial products),
+- redistribute modified versions,
+- relicense or remove attribution.
 
-```bash
-# Default simulation
-reality-recurses
-
-# Custom parameters
-python scripts/run_simulation.py --steps 500 --state-dim 32 --action-dim 8 --seed 42
-```
-
-## Tests
-
-```bash
-pytest                    # 69 tests
-python scripts/audit.py   # 100-point verification
-```
-
-## Project structure
-
-```
-src/reality_recurses/
-├── __init__.py              # Public API
-├── agent.py                 # RealityScalerAgent, PhysicsSimEnvironment
-├── information_physics.py   # LandauerEngine, BekensteinBound, EntropyBudget
-├── architecture.py          # Fractal self-similar hierarchy (6 scales)
-├── thermodynamic_memory.py  # Working → Episodic → Semantic memory
-├── causal_engine.py         # Interventional reasoning, counterfactuals
-├── divergent_engine.py      # Hypothesis population evolution
-├── defaults.py              # Configuration presets
-├── toy_env.py               # LinearTanhEnv test environment
-└── baselines.py             # Random and zero-action baselines
-```
-
-## Key concepts
-
-**Landauer Engine** — tracks every bit erasure at cost `bits × kT ln2 × overhead`. Enforces energy budget; operations rejected when depleted.
-
-**Fractal Architecture** — six self-similar scales (Nucleus → Sensor → Compressor → CausalModeler → Scaler → Reality). Each implements sense → compress → model → act → learn.
-
-**Thermodynamic Memory** — three-tier hierarchy: Working (7 items, high energy), Episodic (1000 episodes), Semantic (500 compressed abstractions). Eviction by information density.
-
-**Causal Engine** — interventions (strong evidence, confidence += 0.1) vs observations (weak evidence, confidence += 0.02, capped at 0.8). Temporal decay and pruning. Counterfactual estimation via do-calculus.
-
-**Divergent Explorer** — three hypothesis populations (dynamics, reward, novelty), each with competing models. Evolution: elite selection → mutation → crossover → immigration.
-
-## Theory
-
-See [theory.md](theory.md) for the full theoretical foundation.
-
-## License
-
-MIT
+See `LICENSE` for details.
