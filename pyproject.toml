@@ -18,12 +18,80 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=5.0",
+  "ruff>=0.6",
+  "black>=24.0",
+  "mypy>=1.10",
+  "pre-commit>=3.6",
+  "bandit>=1.7",
+  "pip-audit>=2.7",
+  "types-setuptools",
+]
+
 [project.scripts]
 reality-recurses = "reality_recurses.agent:run_simulation"
 reality-scaler = "reality_scaler.agent:run_simulation"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+markers = [
+  "unit: fast, isolated tests (default)",
+  "integration: crosses module boundaries (still fast)",
+  "regression: guards a previously-fixed bug / invariant regression",
+  "validation: slower, broader checks (excluded from default CI unit suite)",
+]
+addopts = "-ra"
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+skip_covered = false
+exclude_lines = [
+  "pragma: no cover",
+  "if __name__ == .__main__.:",
+  "raise SystemExit",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py310", "py311", "py312"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+exclude = [
+  ".git",
+  ".venv",
+  "build",
+  "dist",
+  "__pycache__",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "I"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+strict_equality = true
+pretty = true
+mypy_path = "src"
+packages = ["reality_recurses", "reality_scaler"]

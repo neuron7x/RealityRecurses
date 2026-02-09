@@ -20,6 +20,25 @@ from typing import Any
 
 import numpy as np
 
+
+def _json_default(o: Any):
+    """Make audit JSON serialization robust (numpy scalars, arrays, dataclasses)."""
+    try:
+        import numpy as _np
+        if isinstance(o, (_np.bool_,)):
+            return bool(o)
+        if isinstance(o, (_np.integer,)):
+            return int(o)
+        if isinstance(o, (_np.floating,)):
+            return float(o)
+        if isinstance(o, _np.ndarray):
+            return o.tolist()
+    except Exception:
+        pass
+    # Last resort
+    return str(o)
+
+
 from reality_recurses.agent import AgentConfig, RealityScalerAgent
 from reality_recurses.toy_env import LinearTanhEnv
 from reality_recurses.baselines import RandomBaseline, ZeroActionBaseline
@@ -175,7 +194,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     report = run_audit(seed=args.seed, steps=args.steps)
     if args.json:
-        print(json.dumps(report, indent=2, sort_keys=True))
+        print(json.dumps(report, indent=2, sort_keys=True, default=_json_default))
         raise SystemExit(0)
     failed = [c for c in report["checks"] if not c["ok"]]
     print(f"Audit: {report['summary']['passed']}/{report['summary']['total']} passed")

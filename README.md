@@ -11,6 +11,14 @@ python scripts/audit.py
 python scripts/run_simulation.py --steps 5 --json
 ```
 
+
+## PR quality gates
+
+```bash
+python scripts/pr_gate.py --quick
+python scripts/pr_gate.py --full
+```
+
 ## What this repository provides
 
 - Agent loop with explicit budgets (energy, entropy, information throughput)
